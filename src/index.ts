@@ -22,16 +22,29 @@ client.on("ready", () => {
 // My numbers
 const userone = "911234...@c.us"; 
 const usertwo = "915678...@c.us"; 
-// linked device with number - 919000
+// linked device with number - 919000...
 
 // Incoming messages
 client.on("message", async (msg) => {
+  // Auto replay the user with 2 messages
+  if (msg.from) {
+    console.log(` ${msg.from} sent this message: ${msg.body}`);
+    await client.sendMessage(
+      msg.from,
+      "It Seems like Rudra is busy somewhere else, he will be right back in a few minutes..."
+    );
+    await client.sendMessage(msg.from, "You can wait or Contact him directly");
+    console.log("Auto Message Sent");
+  }
+
   if (msg.from === userone) {
     console.log(`User: ${userone} sent this message: ${msg.body}`);
     await client.sendMessage(usertwo, msg.body);
     console.log(`Message forwarded to ${usertwo}`);
   } else {
-    console.log(`Message from ${msg.from}, not ${userone}, ignoring the msg`);
+    console.log(
+      `Message from ${msg.from}, not ${userone}, ignoring the message`
+    );
   }
 });
 
