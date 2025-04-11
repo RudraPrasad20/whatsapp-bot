@@ -1,6 +1,13 @@
 import { Client, LocalAuth } from "whatsapp-web.js";
 import qrcode from "qrcode-terminal";
 
+const AutoMessages: { [key: string]: string } = {
+  hello: "hey, how are you",
+  goodmorning: "Well.. have a nice day",
+  goodnight: "bye bye",
+  byy: "have a good day",
+};
+
 // Initialize a new client
 const client = new Client({
   authStrategy: new LocalAuth(),
@@ -20,12 +27,17 @@ client.on("ready", () => {
 });
 
 // My numbers
-const userone = "911234...@c.us"; 
-const usertwo = "915678...@c.us"; 
+const userone = "91123...@c.us";
+const usertwo = "914567...@c.us";
 // linked device with number - 919000...
 
 // Incoming messages
 client.on("message", async (msg) => {
+  const key = msg.body;
+  if (AutoMessages[key]) {
+    msg.reply(AutoMessages[key]);
+  }
+
   // Auto replay the user with 2 messages
   if (msg.from) {
     console.log(` ${msg.from} sent this message: ${msg.body}`);
